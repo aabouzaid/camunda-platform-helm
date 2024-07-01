@@ -7,7 +7,7 @@ global:
   # https://hub.docker.com/u/camunda
   image:
     # renovate: datasource=docker depName=camunda/zeebe
-    tag: 8.5.2
+    tag: 8.5.4
 
 console:
   # Camunda Enterprise repository.
@@ -20,20 +20,20 @@ connectors:
   # https://hub.docker.com/r/camunda/connectors-bundle/tags
   image:
     repository: camunda/connectors-bundle
-    tag: 8.5.3
+    tag: 8.5.4
 
 operate:
   # https://hub.docker.com/r/camunda/operate/tags
   image:
     # renovate: datasource=docker depName=camunda/operate
-    tag: 8.5.2
+    tag: 8.5.4
 
 optimize:
   # https://hub.docker.com/r/camunda/optimize/tags
   image:
     repository: camunda/optimize
     # renovate: datasource=docker depName=camunda/optimize
-    tag: 8.5.2
+    tag: 8.5.3
 
 webModeler:
   # Camunda Enterprise repository.
