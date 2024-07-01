@@ -20,25 +20,106 @@
     "fileMatch": ["^\\.github/workflows/[^/]+\\.ya?ml$"]
   },
   "packageRules": [
+    // Start of minor cycle chores.
+    //
+    // Main groups.
+    // This section should be updated with the Camunda supported versions.
     {
+      "groupName": "camunda-platform-8.2",
+      "addLabels": ["version/8.2"],
       "matchFileNames": [
-        ".github/workflows/*.ya?ml",
-        ".github/actions/action.ya?ml",
+        "charts/camunda-platform-8.2/Chart.yaml",
+        "charts/camunda-platform-8.2/values*.yaml",
+        "charts/camunda-platform-8.2/go.*"
+      ],
+      "matchUpdateTypes": ["patch", "pin", "digest"],
+    },
+    {
+      "groupName": "camunda-platform-8.3",
+      "addLabels": ["version/8.3"],
+      "matchFileNames": [
+        "charts/camunda-platform-8.3/Chart.yaml",
+        "charts/camunda-platform-8.3/values*.yaml",
+        "charts/camunda-platform-8.3/go.*"
+      ],
+      "matchUpdateTypes": ["patch", "pin", "digest"],
+    },
+    {
+      "groupName": "camunda-platform-8.4",
+      "addLabels": ["version/8.4"],
+      "matchFileNames": [
+        "charts/camunda-platform-8.4/Chart.yaml",
+        "charts/camunda-platform-8.4/values*.yaml",
+        "charts/camunda-platform-8.4/go.*"
+      ],
+      "matchUpdateTypes": ["patch", "pin", "digest"],
+    },
+    {
+      "groupName": "camunda-platform-latest",
+      "addLabels": ["version/8.5"],
+      "matchFileNames": [
         "charts/camunda-platform-latest/Chart.yaml",
         "charts/camunda-platform-latest/values*.yaml",
         "charts/camunda-platform-latest/go.*"
       ],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-      // "addLabels": ["automerge"],
-      // "automerge": true
     },
     {
+      "groupName": "camunda-platform-alpha",
+      "addLabels": ["version/8.6"],
       "matchFileNames": [
-        "charts/camunda-platform-8*/Chart.yaml",
-        "charts/camunda-platform-8*/values*.yaml",
-        "charts/camunda-platform-8*/go.*",
+        "charts/camunda-platform-alpha/Chart.yaml",
+        "charts/camunda-platform-alpha/values*.yaml",
+        "charts/camunda-platform-latest/go.*"
       ],
-      "matchUpdateTypes": ["patch"],
+      "matchUpdateTypes": ["major", "minor", "patch"]
+    },
+    // End of minor cycle chores.
+
+    //
+    // Other groups.
+    {
+      "groupName": "bitnami-web-modeler-postgresql",
+      "matchFileNames": [
+        "charts/web-modeler-postgresql/**",
+      ],
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
+      "groupName": "tool-versions",
+      "matchFileNames": [".tool-versions"],
+      "addLabels": ["deps/tool-versions"],
+    },
+    {
+      "groupName": "github-actions",
+      "matchManagers": ["github-actions"],
+      "addLabels": ["deps/github-actions"],
+    },
+
+    //
+    // Tools.
+    {
+      // Limit tools and libs versions to the actual Distro CI Kubernetes cluster.
+      "matchDepPatterns": ["kubectl"],
+      "allowedVersions": "<1.28.0"
+    },
+    {
+      "matchDepPatterns": ["k8s.io/.*"],
+      "allowedVersions": "<0.28.0"
+    },
+
+    //
+    // Camunda charts.
+    {
+      "matchDepPatterns": ["^camunda/.+"],
+      "matchFileNames": [
+        "charts/camunda-platform-alpha/Chart.yaml",
+        "charts/camunda-platform-alpha/values*.yaml",
+      ],
+      // Ignore non-semver versions like 8.6.0-alpha3-rc3 which has a higher precedence than 8.6.0-alpha3
+      // which is not the case.
+      "versionCompatibility": "^(?<version>[^-]*)(-(?<compatibility>[^-]*))?$",
+      "matchUpdateTypes": ["minor", "patch"]
     },
     {
       // Disable major version update for all Helm components.
@@ -49,7 +130,7 @@
     {
       // Disable minor version update for previous Camunda releases which will only get patch updates.
       "enabled": false,
-      "matchManagers": ["helm-values", "regex"],
+      "matchManagers": ["helmv3", "helm-values", "regex"],
       "matchPaths": [
         "charts/camunda-platform-8*/values*.yaml",
       ],
@@ -57,21 +138,30 @@
     },
     {
       // Enable non-major version update for current Camunda version.
-      "matchDatasources": ["github-releases", "docker", "regex"],
-      "matchPaths": ["charts/camunda-platform-latest/values.yaml", "charts/camunda-platform-latest/values-latest.yaml"],
+      "matchDatasources": ["helm", "docker", "regex"],
+      "matchPaths": [
+        "charts/camunda-platform-latest/values.yaml",
+        "charts/camunda-platform-latest/values-latest.yaml"
+      ],
       "matchUpdateTypes": ["minor", "patch"]
     },
     {
       // Enable patch version update for previous Camunda version.
-      "matchDatasources": ["github-releases", "docker", "regex"],
-      "matchPaths": ["charts/camunda-platform-*/values.yaml", "charts/camunda-platform-*/values-latest.yaml"],
+      "matchDatasources": ["helmv3", "helm-values", "docker", "regex"],
+      "matchPaths": [
+        "charts/camunda-platform-8*/values.yaml",
+        "charts/camunda-platform-8*/values-latest.yaml"
+      ],
       "matchUpdateTypes": ["patch"]
     },
     {
       // Limit Elasticsearch version to latest supported version in Camunda v8.5.
       // https://docs.camunda.io/docs/reference/supported-environments/#camunda-8-self-managed
       "matchDatasources": ["docker"],
-      "matchPaths": ["charts/camunda-platform-latest/values.yaml", "charts/camunda-platform-latest/values-latest.yaml"],
+      "matchPaths": [
+        "charts/camunda-platform-latest/values.yaml",
+        "charts/camunda-platform-latest/values-latest.yaml"
+      ],
       "matchDepNames": ["bitnami/elasticsearch"],
       "allowedVersions": "~8.12.0"
     },
@@ -81,16 +171,24 @@
       "matchPaths": ["charts/camunda-platform-8*/Chart.yaml"],
       "enabled": false
     },
-    // Limit tools and libs versions to the actual Distro CI Kubernetes cluster.
+
+    //
+    // General.
     {
-      "matchDepPatterns": ["kubectl"],
-      "allowedVersions": "<1.28.0"
-    },
-    {
-      "matchDepPatterns": ["k8s.io/.*"],
-      "allowedVersions": "<0.28.0"
+      "matchFileNames": [
+        ".tool-versions",
+        ".github/workflows/*",
+        ".github/actions/*",
+        "charts/camunda-platform-*/**",
+      ],
+      "addLabels": ["automerge", "automation/renovatebot", "kind/chore"],
+      // The platformAutomerge value should be false to avoid having the renovatebot PRs merged
+      // without all checks passed.
+      "platformAutomerge": false,
+      "automerge": true
     }
   ],
+
   "regexManagers": [
     {
       // This is mainly used to update Camunda unified image tag.
@@ -115,13 +213,6 @@
     }
   ],
   "hostRules": [
-    {
-      "hostType": "docker",
-      "matchHost": "https://registry.camunda.cloud",
-      "username": "ci-distribution",
-      "encrypted": {
-        "password": "wcFMA/xDdHCJBTolAQ/7BSbgiur4KfMX0vgTM9T8Rt1pTqby5bR/RW6n/Iq5+bNU8pQne1W6zxaFEagkMMMTx/JtdWl88sDlGFqdG80Oik7Wbb7UDYl39Wdvax0DhmfkT1yqXYToyYz0rXpB9BIllAkfCy9ll8SbZqVBa/NoMPo2Fb8Hj/PiT4xG1U+YoWdsyXFLXz+jKEsRIKXC28ApxqJ7TN4iO5FEWrZIB4Bgtkg+x4FOpCTaS6fwui7FRxfFSGWTFkepr6R/lhPTDCHH7u65Mroff4IjUqfJ5dkGY+49QUGW45toaHXdXV9ZaBIMm+v6cNOOw92P+bidMdhIBLurOBqig24Jj02+wb5J9eKPBP1tvXW0vz1jwhOQIqRmV95zt5JCiQ7s/DByQnUsWfsJ3Vz9rbsUPLwspAhK3ayTl0ltrSj+LaejZei6Ny0Qq4LWTW14RjgLnABRhcK9iefCqVmLbRN+NQDcP0IxjHkFdGgxNaGPkb+jTC7CYJj9TKRHBabauXxvNGrggliUKAlOh8VmpQ1ZFoxryMDQK/HEP/qUU/TmzyAuAtSfrUdOlgYVBEQ7xGH1AfC7fhFUFohAcs4OGCKjbPTCM/LwH9o9zx4hEHh1bCjdgv98Ug4UgYpXBJPJ7Jc2Xng9nCUrkEPPX85kXTlT7T96a5p6CqKBkRNPES88Nj1adP7uANjSYgFIB59DO0tlvxUgBGo+NhjSNQl4wigI0Uc6JGysDb3qXH66nlymaZFzR5jrvqXU+iCMTf/yVyOdAcYQqh1wRHOmuuy0/AK/N0m4fFE3ldsmyV61oCUPxj1sjlNYd1Bte5fy"
-      }
-    }
+
   ]
 }

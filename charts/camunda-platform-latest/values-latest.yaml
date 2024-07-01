@@ -13,7 +13,7 @@ console:
   # Camunda Enterprise repository.
   # registry.camunda.cloud/console
   image:
-    # renovate: datasource=docker depName=camunda/console lookupName=registry.camunda.cloud/console/console-sm
+    # renovate: datasource=docker packageName=camunda/console depName=camunda/console lookupName=registry.camunda.cloud/console/console-sm
     tag: 8.5.50
 
 connectors:
