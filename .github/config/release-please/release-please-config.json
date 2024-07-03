@@ -13,7 +13,7 @@
       "component": "camunda-platform",
       "package-name": "camunda-platform-latest",
       "include-v-in-tag": false,
-      "extra-label": "version/8.5",
+      "extra-label": "version/8.5,automation/release-please,release/pr,kind/chore,chart/camunda-platform",
       "changelog-path": "CHANGELOG.md"
     },
     "charts/camunda-platform-8.4": {
