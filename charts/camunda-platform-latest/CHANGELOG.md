@@ -1,5 +1,12 @@
 # Changelog
 
+## [10.5.0](https://github.com/aabouzaid/camunda-platform-helm/compare/camunda-platform-10.4.0...camunda-platform-10.5.0) (2024-07-03)
+
+
+### Features
+
+* dummy ([8fb73ea](https://github.com/aabouzaid/camunda-platform-helm/commit/8fb73ea7697e9e1b5b0dc687806f0bde278867de))
+
 ## [10.4.0](https://github.com/aabouzaid/camunda-platform-helm/compare/camunda-platform-v10.3.0...camunda-platform-10.4.0) (2024-07-02)
 
 
