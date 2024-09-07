@@ -66,16 +66,16 @@
       ],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
     },
-    // {
-    //   "groupName": "camunda-platform-alpha",
-    //   "addLabels": ["version/8.6", "deps/charts"],
-    //   "matchFileNames": [
-    //     "charts/camunda-platform-alpha/Chart.yaml",
-    //     "charts/camunda-platform-alpha/values*.yaml",
-    //     "charts/camunda-platform-alpha/go.*"
-    //   ],
-    //   "matchUpdateTypes": ["major", "minor", "patch"],
-    // },
+    {
+      "groupName": "camunda-platform-alpha",
+      "addLabels": ["version/8.6", "deps/charts"],
+      "matchFileNames": [
+        "charts/camunda-platform-alpha/Chart.yaml",
+        "charts/camunda-platform-alpha/values*.yaml",
+        "charts/camunda-platform-alpha/go.*"
+      ],
+      "matchUpdateTypes": ["auto", "major", "minor", "patch"],
+    },
     // End of minor cycle chores.
 
     //
@@ -139,18 +139,8 @@
       "matchUpdateTypes": ["minor"]
     },
     {
-      // Enable non-major version update for alpha Camunda version.
-      "matchDatasources": ["helmv3", "helm-values", "docker", "regex"],
-      "matchPaths": [
-        "charts/camunda-platform-alpha/values.yaml",
-        "charts/camunda-platform-alpha/values-latest.yaml"
-      ],
-      // "matchNewValue": "/\\d+\.\\d+\.\\d+-alpha[1-6]/",
-      "matchUpdateTypes": ["minor", "patch"]
-    },
-    {
       // Enable non-major version update for current Camunda version.
-      "matchDatasources": ["helmv3", "helm-values", "docker", "regex"],
+      "matchDatasources": ["helm", "docker", "regex"],
       "matchPaths": [
         "charts/camunda-platform-latest/values.yaml",
         "charts/camunda-platform-latest/values-latest.yaml"
@@ -183,18 +173,24 @@
       "matchPaths": ["charts/camunda-platform-8*/Chart.yaml"],
       "enabled": false
     },
-    // {
-    //   "enabled": true,
-    //   "matchPackageNames": ["/.*camunda.*/"],
-    //   "matchFileNames": [
-    //     "charts/camunda-platform-alpha/Chart.yaml",
-    //     "charts/camunda-platform-alpha/values*.yaml",
-    //   ],
-    //   // Ignore non-semver versions like 8.6.0-alpha3-rc3 which has a higher precedence than 8.6.0-alpha3
-    //   // which is not the case.
-      
-    //   "matchUpdateTypes": ["minor", "patch"]
-    // },
+    {
+      "enabled": true,
+      "matchPackageNames": ["/.*camunda.*/"],
+      "matchFileNames": [
+        "charts/camunda-platform-alpha/Chart.yaml",
+        "charts/camunda-platform-alpha/values*.yaml",
+      ],
+      // Ignore non-semver versions like 8.6.0-alpha3-rc3 which has a higher precedence than 8.6.0-alpha3
+      // which is not the case.
+      // "versionCompatibility": "^(?<version>\\d+\.\\d+\.\\d+-alpha[1-6])$",
+      // "versionCompatibility": "^(?<version>\\d+\.\\d+\.\\d+-alpha[1-6])$",
+      //"matchNewValue": "/\\d+\.\\d+\.\\d+-alpha[1-6]/",
+      // "extractVersion": "^(?<version>\\d+\.\\d+\.\\d+-alpha[1-6])",
+      //"versioning": "regex:^.*?(?<major>\\d+)\\.(?<minor>\\d+)\\.(?<patch>\\d+)-alpha[1-6].*$",
+      // "matchUpdateTypes": ["auto", "major", "minor", "patch"],
+      "versionCompatibility": "^(?<version>\\d+\.\\d+\.\\d+-alpha[1-6])(?<compatibility>.*)$",
+      "versioning": "semver"
+    },
 
     //
     // General.
@@ -237,14 +233,4 @@
     }
   ],
 
-  "hostRules": [
-    {
-      "hostType": "docker",
-      "matchHost": "https://registry.camunda.cloud",
-      "username": "ci-distribution",
-      "encrypted": {
-        "password": "wcFMA/xDdHCJBTolAQ/7BSbgiur4KfMX0vgTM9T8Rt1pTqby5bR/RW6n/Iq5+bNU8pQne1W6zxaFEagkMMMTx/JtdWl88sDlGFqdG80Oik7Wbb7UDYl39Wdvax0DhmfkT1yqXYToyYz0rXpB9BIllAkfCy9ll8SbZqVBa/NoMPo2Fb8Hj/PiT4xG1U+YoWdsyXFLXz+jKEsRIKXC28ApxqJ7TN4iO5FEWrZIB4Bgtkg+x4FOpCTaS6fwui7FRxfFSGWTFkepr6R/lhPTDCHH7u65Mroff4IjUqfJ5dkGY+49QUGW45toaHXdXV9ZaBIMm+v6cNOOw92P+bidMdhIBLurOBqig24Jj02+wb5J9eKPBP1tvXW0vz1jwhOQIqRmV95zt5JCiQ7s/DByQnUsWfsJ3Vz9rbsUPLwspAhK3ayTl0ltrSj+LaejZei6Ny0Qq4LWTW14RjgLnABRhcK9iefCqVmLbRN+NQDcP0IxjHkFdGgxNaGPkb+jTC7CYJj9TKRHBabauXxvNGrggliUKAlOh8VmpQ1ZFoxryMDQK/HEP/qUU/TmzyAuAtSfrUdOlgYVBEQ7xGH1AfC7fhFUFohAcs4OGCKjbPTCM/LwH9o9zx4hEHh1bCjdgv98Ug4UgYpXBJPJ7Jc2Xng9nCUrkEPPX85kXTlT7T96a5p6CqKBkRNPES88Nj1adP7uANjSYgFIB59DO0tlvxUgBGo+NhjSNQl4wigI0Uc6JGysDb3qXH66nlymaZFzR5jrvqXU+iCMTf/yVyOdAcYQqh1wRHOmuuy0/AK/N0m4fFE3ldsmyV61oCUPxj1sjlNYd1Bte5fy"
-      }
-    }
-  ]
 }
