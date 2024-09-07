@@ -66,16 +66,16 @@
       ],
       "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
     },
-    {
-      "groupName": "camunda-platform-alpha",
-      "addLabels": ["version/8.6", "deps/charts"],
-      "matchFileNames": [
-        "charts/camunda-platform-alpha/Chart.yaml",
-        "charts/camunda-platform-alpha/values*.yaml",
-        "charts/camunda-platform-alpha/go.*"
-      ],
-      "matchUpdateTypes": ["major", "minor", "patch"],
-    },
+    // {
+    //   "groupName": "camunda-platform-alpha",
+    //   "addLabels": ["version/8.6", "deps/charts"],
+    //   "matchFileNames": [
+    //     "charts/camunda-platform-alpha/Chart.yaml",
+    //     "charts/camunda-platform-alpha/values*.yaml",
+    //     "charts/camunda-platform-alpha/go.*"
+    //   ],
+    //   "matchUpdateTypes": ["major", "minor", "patch"],
+    // },
     // End of minor cycle chores.
 
     //
@@ -139,8 +139,18 @@
       "matchUpdateTypes": ["minor"]
     },
     {
+      // Enable non-major version update for alpha Camunda version.
+      "matchDatasources": ["helmv3", "helm-values", "docker", "regex"],
+      "matchPaths": [
+        "charts/camunda-platform-alpha/values.yaml",
+        "charts/camunda-platform-alpha/values-latest.yaml"
+      ],
+      // "matchNewValue": "/\\d+\.\\d+\.\\d+-alpha[1-6]/",
+      "matchUpdateTypes": ["minor", "patch"]
+    },
+    {
       // Enable non-major version update for current Camunda version.
-      "matchDatasources": ["helm", "docker", "regex"],
+      "matchDatasources": ["helmv3", "helm-values", "docker", "regex"],
       "matchPaths": [
         "charts/camunda-platform-latest/values.yaml",
         "charts/camunda-platform-latest/values-latest.yaml"
@@ -173,19 +183,18 @@
       "matchPaths": ["charts/camunda-platform-8*/Chart.yaml"],
       "enabled": false
     },
-    {
-      "enabled": true,
-      "matchPackageNames": ["/.*camunda.*/"],
-      "matchDatasources": ["helm", "docker", "regex"],
-      "matchFileNames": [
-        "charts/camunda-platform-alpha/Chart.yaml",
-        "charts/camunda-platform-alpha/values*.yaml",
-      ],
-      // Ignore non-semver versions like 8.6.0-alpha3-rc3 which has a higher precedence than 8.6.0-alpha3
-      // which is not the case.
-      "versionCompatibility": "^(?<version>\\d+\.\\d+\.\\d+-alpha[1-6])$",
-      "matchUpdateTypes": ["minor", "patch"]
-    },
+    // {
+    //   "enabled": true,
+    //   "matchPackageNames": ["/.*camunda.*/"],
+    //   "matchFileNames": [
+    //     "charts/camunda-platform-alpha/Chart.yaml",
+    //     "charts/camunda-platform-alpha/values*.yaml",
+    //   ],
+    //   // Ignore non-semver versions like 8.6.0-alpha3-rc3 which has a higher precedence than 8.6.0-alpha3
+    //   // which is not the case.
+      
+    //   "matchUpdateTypes": ["minor", "patch"]
+    // },
 
     //
     // General.
