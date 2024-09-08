@@ -1,6 +1,6 @@
 apiVersion: v2
 name: camunda-platform
-# renovate: datasource=github-tags depName=camunda/camunda versioning=semver
+# renovate: datasource=github-tags depName=camunda/camunda packageName=charts/camunda-platform-alpha
 version: 8.6.0-alpha4
 appVersion: 8.6.x
 description: |

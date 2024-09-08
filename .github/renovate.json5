@@ -227,7 +227,7 @@
       "fileMatch": ["\\.yaml$"],
       "datasourceTemplate":"github-tags",
       "matchStrings": [
-        "# renovate: datasource=github-tags depName=(?<depName>.+?)( versioning=(?<versioning>.+?))?\\s+?version: (?<currentValue>\\S+)"
+        "# renovate: datasource=github-tags depName=(?<depName>.+?)( versioning=(?<versioning>.+?))?(?: (lookupName|packageName)=(?<packageName>[^\\s]+?))?\\s+?version: (?<currentValue>\\S+)"
       ],
       "versioningTemplate": "{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}"
     },
