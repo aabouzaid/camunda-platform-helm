@@ -1941,7 +1941,7 @@ webModeler:
   image:
     ## @param webModeler.image.registry can be used to set the Docker registry for the Web Modeler images (overwrites global.image.registry)
     # Note: The images are not publicly available on Docker Hub, but only from Camunda's private registry.
-    registry: registry.camunda.cloud
+    registry: ""
     ## @param webModeler.image.tag can be used to set the Docker image tag for the Web Modeler images (overwrites global.image.tag)
     # renovate # datasource=docker depName=camunda/web-modeler lookupName=registry.camunda.cloud/web-modeler-ee/modeler-restapi
     tag: 8.3.11
@@ -2834,7 +2834,7 @@ console:
   ## console.image configuration to configure the Console image specifics
   image:
     ## @skip console.image.registry can be used to set container image registry.
-    registry: registry.camunda.cloud
+    registry: ""
     ## @skip console.image.repository defines which image repository to use
     repository: console/console-sm
     ## @skip console.image.tag can be set to overwrite the global tag, which should be used in that chart

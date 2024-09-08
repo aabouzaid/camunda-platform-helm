@@ -24,46 +24,46 @@
     // Main groups.
     // This section should be updated with the Camunda supported versions.
     // Start of minor cycle chores.
-    {
-      "groupName": "camunda-platform-8.2",
-      "addLabels": ["version/8.2", "deps/charts"],
-      "matchFileNames": [
-        "charts/camunda-platform-8.2/Chart.yaml",
-        "charts/camunda-platform-8.2/values*.yaml",
-        "charts/camunda-platform-8.2/go.*"
-      ],
-      "matchUpdateTypes": ["patch", "pin", "digest"],
-    },
-    {
-      "groupName": "camunda-platform-8.3",
-      "addLabels": ["version/8.3", "deps/charts"],
-      "matchFileNames": [
-        "charts/camunda-platform-8.3/Chart.yaml",
-        "charts/camunda-platform-8.3/values*.yaml",
-        "charts/camunda-platform-8.3/go.*"
-      ],
-      "matchUpdateTypes": ["patch", "pin", "digest"],
-    },
-    {
-      "groupName": "camunda-platform-8.4",
-      "addLabels": ["version/8.4", "deps/charts"],
-      "matchFileNames": [
-        "charts/camunda-platform-8.4/Chart.yaml",
-        "charts/camunda-platform-8.4/values*.yaml",
-        "charts/camunda-platform-8.4/go.*"
-      ],
-      "matchUpdateTypes": ["patch", "pin", "digest"],
-    },
-    {
-      "groupName": "camunda-platform-latest",
-      "addLabels": ["version/8.5", "deps/charts"],
-      "matchFileNames": [
-        "charts/camunda-platform-latest/Chart.yaml",
-        "charts/camunda-platform-latest/values*.yaml",
-        "charts/camunda-platform-latest/go.*"
-      ],
-      "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
-    },
+    // {
+    //   "groupName": "camunda-platform-8.2",
+    //   "addLabels": ["version/8.2", "deps/charts"],
+    //   "matchFileNames": [
+    //     "charts/camunda-platform-8.2/Chart.yaml",
+    //     "charts/camunda-platform-8.2/values*.yaml",
+    //     "charts/camunda-platform-8.2/go.*"
+    //   ],
+    //   "matchUpdateTypes": ["patch", "pin", "digest"],
+    // },
+    // {
+    //   "groupName": "camunda-platform-8.3",
+    //   "addLabels": ["version/8.3", "deps/charts"],
+    //   "matchFileNames": [
+    //     "charts/camunda-platform-8.3/Chart.yaml",
+    //     "charts/camunda-platform-8.3/values*.yaml",
+    //     "charts/camunda-platform-8.3/go.*"
+    //   ],
+    //   "matchUpdateTypes": ["patch", "pin", "digest"],
+    // },
+    // {
+    //   "groupName": "camunda-platform-8.4",
+    //   "addLabels": ["version/8.4", "deps/charts"],
+    //   "matchFileNames": [
+    //     "charts/camunda-platform-8.4/Chart.yaml",
+    //     "charts/camunda-platform-8.4/values*.yaml",
+    //     "charts/camunda-platform-8.4/go.*"
+    //   ],
+    //   "matchUpdateTypes": ["patch", "pin", "digest"],
+    // },
+    // {
+    //   "groupName": "camunda-platform-latest",
+    //   "addLabels": ["version/8.5", "deps/charts"],
+    //   "matchFileNames": [
+    //     "charts/camunda-platform-latest/Chart.yaml",
+    //     "charts/camunda-platform-latest/values*.yaml",
+    //     "charts/camunda-platform-latest/go.*"
+    //   ],
+    //   "matchUpdateTypes": ["minor", "patch", "pin", "digest"],
+    // },
     {
       "groupName": "camunda-platform-alpha",
       "addLabels": ["version/8.6", "deps/charts"],
@@ -78,10 +78,14 @@
       // Limit alpha chart version to alpha tags only.
       "matchDatasources": ["github-tags"],
       "matchPackageNames": ["camunda/camunda"],
-      "matchPaths": ["charts/camunda-platform-alpha/Chart.yaml"],
+      "matchFileNames": ["charts/camunda-platform-alpha/Chart.yaml"],
       // "allowedVersions": "/^\\d+\\.\\d+\\.\\d+-alpha[1-6]$/",
-      "matchNewValue": "/^\\d+\\.\\d+\\.\\d+-alpha[1-6]$/",
-      "versionCompatibility": "^(?<version>\\d+\\.\\d+\\.\\d+-alpha[1-6])$"
+      // "matchNewValue": "/^\\d+\\.\\d+\\.\\d+-alpha[1-6]$/",
+      // "versionCompatibility": "^(?<version>\\d+\\.\\d+\\.\\d+-alpha[1-6])$"
+      // "versionCompatibility": "^(?<version>\\d+\.\\d+\.\\d+-alpha[1-6])(?<compatibility>.*)$",
+      // "matchUpdateTypes": ["minor", "patch", "prerelease"],
+      // "versioning": "semver"
+      "versioning": "regex:^.*? (?<major>\\d+)(\\.(?<minor>\\d+))(\\.(?<patch>\\d+))(-(?<prerelease>alpha[1-6]))$"
     },
     // End of minor cycle chores.
 
@@ -136,61 +140,61 @@
       "matchManagers": ["helmv3", "helm-values", "regex"],
       "matchUpdateTypes": ["major"]
     },
-    {
-      // Disable minor version update for previous Camunda releases which will only get patch updates.
-      "enabled": false,
-      "matchManagers": ["helmv3", "helm-values", "regex"],
-      "matchPaths": [
-        "charts/camunda-platform-8*/values*.yaml",
-      ],
-      "matchUpdateTypes": ["minor"]
-    },
-    {
-      // Enable non-major version update for current Camunda version.
-      "matchDatasources": ["helm", "docker", "regex"],
-      "matchPaths": [
-        "charts/camunda-platform-latest/values.yaml",
-        "charts/camunda-platform-latest/values-latest.yaml"
-      ],
-      "matchUpdateTypes": ["minor", "patch"]
-    },
-    {
-      // Enable patch version update for previous Camunda version.
-      "matchDatasources": ["helmv3", "helm-values", "docker", "regex"],
-      "matchPaths": [
-        "charts/camunda-platform-8*/values.yaml",
-        "charts/camunda-platform-8*/values-latest.yaml"
-      ],
-      "matchUpdateTypes": ["patch"]
-    },
-    {
-      // Limit Elasticsearch version to latest supported version in Camunda v8.5.
-      // https://docs.camunda.io/docs/reference/supported-environments/#camunda-8-self-managed
-      "matchDatasources": ["docker"],
-      "matchPaths": [
-        "charts/camunda-platform-latest/values.yaml",
-        "charts/camunda-platform-latest/values-latest.yaml"
-      ],
-      "matchPackageNames": ["/.*elasticsearch.*/"],
-      "allowedVersions": "~8.12.0"
-    },
-    {
-      // Limit Elasticsearch version to latest supported version for Alpha
-      // https://docs.camunda.io/docs/reference/supported-environments/#camunda-8-self-managed
-      "matchDatasources": ["docker"],
-      "matchPaths": [
-        "charts/camunda-platform-alpha/values.yaml",
-        "charts/camunda-platform-alpha/values-latest.yaml"
-      ],
-      "matchPackageNames": ["/.*elasticsearch.*/"],
-      "allowedVersions": "~8.15.0"
-    },
-    {
-      // Disable Helm chart upgrades from for elasticsearch chart.
-      "matchPackageNames": ["/.*elasticsearch.*/"],
-      "matchPaths": ["charts/camunda-platform-8*/Chart.yaml"],
-      "enabled": false
-    },
+    // {
+    //   // Disable minor version update for previous Camunda releases which will only get patch updates.
+    //   "enabled": false,
+    //   "matchManagers": ["helmv3", "helm-values", "regex"],
+    //   "matchPaths": [
+    //     "charts/camunda-platform-8*/values*.yaml",
+    //   ],
+    //   "matchUpdateTypes": ["minor"]
+    // },
+    // {
+    //   // Enable non-major version update for current Camunda version.
+    //   "matchDatasources": ["helm", "docker", "regex"],
+    //   "matchPaths": [
+    //     "charts/camunda-platform-latest/values.yaml",
+    //     "charts/camunda-platform-latest/values-latest.yaml"
+    //   ],
+    //   "matchUpdateTypes": ["minor", "patch"]
+    // },
+    // {
+    //   // Enable patch version update for previous Camunda version.
+    //   "matchDatasources": ["helmv3", "helm-values", "docker", "regex"],
+    //   "matchPaths": [
+    //     "charts/camunda-platform-8*/values.yaml",
+    //     "charts/camunda-platform-8*/values-latest.yaml"
+    //   ],
+    //   "matchUpdateTypes": ["patch"]
+    // },
+    // {
+    //   // Limit Elasticsearch version to latest supported version in Camunda v8.5.
+    //   // https://docs.camunda.io/docs/reference/supported-environments/#camunda-8-self-managed
+    //   "matchDatasources": ["docker"],
+    //   "matchPaths": [
+    //     "charts/camunda-platform-latest/values.yaml",
+    //     "charts/camunda-platform-latest/values-latest.yaml"
+    //   ],
+    //   "matchPackageNames": ["/.*elasticsearch.*/"],
+    //   "allowedVersions": "~8.12.0"
+    // },
+    // {
+    //   // Limit Elasticsearch version to latest supported version for Alpha
+    //   // https://docs.camunda.io/docs/reference/supported-environments/#camunda-8-self-managed
+    //   "matchDatasources": ["docker"],
+    //   "matchPaths": [
+    //     "charts/camunda-platform-alpha/values.yaml",
+    //     "charts/camunda-platform-alpha/values-latest.yaml"
+    //   ],
+    //   "matchPackageNames": ["/.*elasticsearch.*/"],
+    //   "allowedVersions": "~8.15.0"
+    // },
+    // {
+    //   // Disable Helm chart upgrades from for elasticsearch chart.
+    //   "matchPackageNames": ["/.*elasticsearch.*/"],
+    //   "matchPaths": ["charts/camunda-platform-8*/Chart.yaml"],
+    //   "enabled": false
+    // },
     {
       "enabled": true,
       "matchPackageNames": ["/.*camunda.*/"],
@@ -246,5 +250,9 @@
     }
   ],
 
-
+  "hostRules": [
+    {
+      "timeout": 10000
+    }
+  ]
 }
