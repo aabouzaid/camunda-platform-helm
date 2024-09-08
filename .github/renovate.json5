@@ -76,11 +76,12 @@
     },
     {
       // Limit alpha chart version to alpha tags only.
-      "matchDatasources": ["regex"],
+      "matchDatasources": ["github-tags"],
       "matchPackageNames": ["camunda/camunda"],
       "matchPaths": ["charts/camunda-platform-alpha/Chart.yaml"],
-      "allowedVersions": "^/\\d+\.\\d+\.\\d+-alpha[1-6]$/",
-      "versionCompatibility": "^(?<version>\\d+\.\\d+\.\\d+-alpha[1-6])$",
+      // "allowedVersions": "/^\\d+\\.\\d+\\.\\d+-alpha[1-6]$/",
+      "matchNewValue": "/^\\d+\\.\\d+\\.\\d+-alpha[1-6]$/",
+      "versionCompatibility": "^(?<version>\\d+\\.\\d+\\.\\d+-alpha[1-6])$"
     },
     // End of minor cycle chores.
 
