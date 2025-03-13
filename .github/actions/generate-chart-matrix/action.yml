@@ -29,6 +29,7 @@ runs:
       env:
         ALL_MODIFIED_FILES: ${{ steps.changed-files.outputs.all_modified_files }}
       run: |
+        set -x
         echo "Setting matrix based on changed files"
         echo "Changed files:"
         printf "%s\n" ${ALL_MODIFIED_FILES}
