@@ -102,6 +102,7 @@ jobs:
       contents: write
       id-token: write
     env:
+      CAMUNDA_VERSION: "${{ matrix.chart.appVersion }}"
       CHART_RELEASER_CONFIG: ".github/config/chart-releaser.yaml"
       CHART_DIR: "charts/camunda-platform-${{ matrix.chart.dirID }}"
       CHART_VERSION: "${{ matrix.chart.version }}"
@@ -181,7 +182,8 @@ jobs:
           helm-cr upload --config ${{ env.CHART_RELEASER_CONFIG }} \
             --push \
             --owner "${{ github.repository_owner }}" \
-            --git-repo "$(basename ${{ github.repository }})"
+            --git-repo "$(basename ${{ github.repository }})" \
+            --release-name-template "{{ .Name }}-${{ env.CAMUNDA_VERSION }}-{{ .Version }}"
       - name: Run Chart Releaser - Indexing
         env:
           CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
@@ -189,7 +191,8 @@ jobs:
           helm-cr index --config ${{ env.CHART_RELEASER_CONFIG }} \
             --push \
             --owner "${{ github.repository_owner }}" \
-            --git-repo "$(basename ${{ github.repository }})"
+            --git-repo "$(basename ${{ github.repository }})" \
+            --release-name-template "{{ .Name }}-${{ env.CAMUNDA_VERSION }}-{{ .Version }}"
       - name: Set GitHub release type
         if: ${{ matrix.chart.prerelease }}
         env:
