@@ -35,6 +35,10 @@
     },
   },
   packageRules: [
+    {
+      "matchDepNames": ["{{ .Values.global.identity.image.registry }}/{{ .Values.global.identity.image.repository }}"],
+      "enabled": false
+    },
     //
     // Main groups.
     // This section should be updated with the Camunda supported versions.
