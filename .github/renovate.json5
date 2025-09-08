@@ -153,6 +153,23 @@
       ],
       pinDigests: false,
     },
+    {
+      groupName: 'camunda-platform-8.8-digest',
+      matchManagers: [
+        'regex',
+      ],
+      addLabels: [
+        'version/8.8',
+        'deps/charts',
+      ],
+      matchFileNames: [
+        'charts/camunda-platform-8.8/values-digest.yaml',
+      ],
+      matchUpdateTypes: [
+        'digest',
+      ],
+      pinDigests: true,
+    },
     // End of minor cycle chores.
 
     //
@@ -510,13 +527,16 @@
       ],
       versioningTemplate: '{{#if versioning}}{{{versioning}}}{{else}}semver{{/if}}',
     },
-  ],
-  hostRules: [
     {
-      hostType: 'docker',
-      matchHost: 'https://registry.camunda.cloud',
-      username: 'ci-distribution',
-      password: '{{ secrets.DISTRO_CAMUNDA_DOCKER_REGISTRY_PASSWORD }}',
-    },
+      customType: 'regex',
+      fileMatch: [
+        'values-digest\\.yaml$'
+      ],
+      matchStrings: [
+        'repository:\\s+(?<depName>\\S+)[\\s\\S]*?tag:\\s+(?<currentValue>[^\\s]+)[\\s\\S]*?digest:\\s+\"?(?<currentDigest>sha256:[a-f0-9]{64})\"?'
+      ],
+      datasourceTemplate: 'docker',
+      versioningTemplate: 'docker',
+    }
   ],
 }
