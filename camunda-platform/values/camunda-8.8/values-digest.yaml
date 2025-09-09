@@ -15,4 +15,5 @@ orchestration:
 
 identity:
   image:
+    repository: camunda/identity
     digest: "SNAPSHOT@sha256:3021e0c8d43e0fdfbc2f98184810c1d2dcdabca18080e9c0ca49e981f055ff37"
