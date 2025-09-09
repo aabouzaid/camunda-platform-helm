@@ -1,19 +1,23 @@
 connectors:
   image:
     repository: camunda/connectors-bundle
-    digest: "SNAPSHOT@sha256:88f5dab42fefacc830a102bda3e2fbe790809b7a2e7ab49e90baa525e3b9d4e0"
+    tag: SNAPSHOT
+    digest: "sha256:88f5dab42fefacc830a102bda3e2fbe790809b7a2e7ab49e90baa525e3b9d4e0"
 
 optimize:
   image:
     repository: camunda/optimize
-    digest: "SNAPSHOT@sha256:38ed7071d6dbb6c5d3d9ec120b98e2c1151136c0093134e31035a72bb6c52da2"
+    tag: SNAPSHOT
+    digest: "sha256:38ed7071d6dbb6c5d3d9ec120b98e2c1151136c0093134e31035a72bb6c52da2"
 
 orchestration:
   image:
     repository: camunda/camunda
-    digest: "SNAPSHOT@sha256:19d112a5d8a7916722a13574c54901b8780930d96c5aff5adf99798a9c316149"
+    tag: SNAPSHOT
+    digest: "sha256:19d112a5d8a7916722a13574c54901b8780930d96c5aff5adf99798a9c316149"
 
 identity:
   image:
     repository: camunda/identity
-    digest: "SNAPSHOT@sha256:3021e0c8d43e0fdfbc2f98184810c1d2dcdabca18080e9c0ca49e981f055ff37"
+    tag: SNAPSHOT
+    digest: "sha256:3021e0c8d43e0fdfbc2f98184810c1d2dcdabca18080e9c0ca49e981f055ff37"
